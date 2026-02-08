@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
 const ESTADO_OPCIONES = ['Bueno', 'Regular', 'Malo']
+const DISCAPACIDAD_CONDICION_OPCIONES = [
+  { value: 'ninguna', label: 'Ninguna' },
+  { value: 'discapacidad', label: 'Discapacidad' },
+  { value: 'condicion', label: 'Condición especial' },
+]
 
 const INITIAL = {
   jefeFamilia: '',
@@ -9,7 +14,7 @@ const INITIAL = {
   nroNinos: 0,
   nroAdultos: 0,
   nroAdultosMayores: 0,
-  discapacidad: false,
+  discapacidadCondicion: 'ninguna',
   saludObservacion: '',
   estadoVivienda: 'Bueno',
   nudoCritico: '',
@@ -25,7 +30,7 @@ export function FormCenso({ onSubmit, initialData, onCancel }) {
           nroNinos: initialData.nroNinos ?? 0,
           nroAdultos: initialData.nroAdultos ?? 0,
           nroAdultosMayores: initialData.nroAdultosMayores ?? 0,
-          discapacidad: initialData.discapacidad ?? false,
+          discapacidadCondicion: initialData.discapacidadCondicion ?? (initialData.discapacidad ? 'discapacidad' : 'ninguna'),
           saludObservacion: initialData.saludObservacion ?? '',
           estadoVivienda: initialData.estadoVivienda ?? 'Bueno',
           nudoCritico: initialData.nudoCritico ?? '',
@@ -70,6 +75,7 @@ export function FormCenso({ onSubmit, initialData, onCancel }) {
       nroNinos: ninos,
       nroAdultos: adultos,
       nroAdultosMayores: mayores,
+      discapacidad: form.discapacidadCondicion !== 'ninguna',
     })
     if (!initialData) setForm(INITIAL)
   }
@@ -82,7 +88,7 @@ export function FormCenso({ onSubmit, initialData, onCancel }) {
   const total = (Number(form.nroNinos) || 0) + (Number(form.nroAdultos) || 0) + (Number(form.nroAdultosMayores) || 0)
 
   return (
-    <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-sm">
+    <div className="min-w-0 max-w-full rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm sm:p-6">
       <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="sm:col-span-2 lg:col-span-3 rounded-lg bg-blue-50/80 border border-blue-100 p-4">
           <p className="text-sm text-blue-800">
@@ -176,18 +182,20 @@ export function FormCenso({ onSubmit, initialData, onCancel }) {
             {errores.nroIntegrantes}
           </p>
         )}
-        <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-3">
-          <input
-            id="discapacidad"
-            name="discapacidad"
-            type="checkbox"
-            checked={form.discapacidad}
-            onChange={handleChange}
-            className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-600"
-          />
-          <label htmlFor="discapacidad" className="text-sm font-medium text-slate-700">
-            Discapacidad
+        <div>
+          <label className="mb-1 block text-sm font-medium text-slate-700">
+            Discapacidad / Condición
           </label>
+          <select
+            name="discapacidadCondicion"
+            value={form.discapacidadCondicion}
+            onChange={handleChange}
+            className={inputClass('discapacidadCondicion')}
+          >
+            {DISCAPACIDAD_CONDICION_OPCIONES.map(({ value, label }) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
         </div>
         <div className="sm:col-span-2 lg:col-span-3">
           <label className="mb-1 block text-sm font-medium text-slate-700">

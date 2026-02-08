@@ -52,9 +52,9 @@ function AppContent() {
       isAdmin={isAdmin}
     >
       {vistaActiva === 'panel' && (
-        <section className="space-y-6">
-          <div className="border-b border-slate-200 pb-4">
-            <h2 className="text-2xl font-semibold text-slate-800">
+        <section className="min-w-0 space-y-6">
+          <div className="min-w-0 border-b border-slate-200 pb-4">
+            <h2 className="break-words text-xl font-semibold text-slate-800 sm:text-2xl">
               {isAdmin ? 'Panel de Métricas' : 'Resumen de Mi Familia'}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
@@ -66,9 +66,9 @@ function AppContent() {
       )}
 
       {vistaActiva === 'registro' && (
-        <section className="space-y-6">
-          <div className="border-b border-slate-200 pb-4">
-            <h2 className="text-2xl font-semibold text-slate-800">
+        <section className="min-w-0 space-y-6">
+          <div className="min-w-0 border-b border-slate-200 pb-4">
+            <h2 className="break-words text-xl font-semibold text-slate-800 sm:text-2xl">
               {isAdmin ? 'Registro de Familias' : 'Registrar Mi Familia'}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
@@ -76,7 +76,7 @@ function AppContent() {
             </p>
           </div>
           {yaTieneFamilia ? (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-8 text-center">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-6 text-center sm:p-8">
               <p className="font-medium text-emerald-800">Ya registró su familia.</p>
               <p className="mt-1 text-sm text-emerald-700">Puede verla y editarla en <strong>Mi Familia</strong>.</p>
               <button
@@ -104,9 +104,9 @@ function AppContent() {
       )}
 
       {vistaActiva === 'base' && (
-        <section className="space-y-6">
-          <div className="border-b border-slate-200 pb-4">
-            <h2 className="text-2xl font-semibold text-slate-800">
+        <section className="min-w-0 space-y-6">
+          <div className="min-w-0 border-b border-slate-200 pb-4">
+            <h2 className="break-words text-xl font-semibold text-slate-800 sm:text-2xl">
               {isAdmin ? 'Base de Datos' : 'Mi Familia'}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
@@ -114,7 +114,7 @@ function AppContent() {
             </p>
           </div>
           {isAdmin && editingFamilia && (
-            <div className="rounded-xl border-2 border-blue-200 bg-blue-50/50 p-6">
+            <div className="min-w-0 max-w-full overflow-hidden rounded-xl border-2 border-blue-200 bg-blue-50/50 p-4 sm:p-6">
               <h3 className="mb-4 font-semibold text-slate-800">Editar familia: {editingFamilia.jefeFamilia}</h3>
               <FormCenso
                 initialData={editingFamilia}
@@ -140,9 +140,9 @@ function AppContent() {
       )}
 
       {isAdmin && vistaActiva === 'grafico' && (
-        <section className="space-y-6">
-          <div className="border-b border-slate-200 pb-4">
-            <h2 className="text-2xl font-semibold text-slate-800">
+        <section className="min-w-0 space-y-6">
+          <div className="min-w-0 border-b border-slate-200 pb-4">
+            <h2 className="break-words text-xl font-semibold text-slate-800 sm:text-2xl">
               Gráfico de Viviendas
             </h2>
             <p className="mt-1 text-sm text-slate-600">
@@ -154,9 +154,9 @@ function AppContent() {
       )}
 
       {isAdmin && vistaActiva === 'exportar' && (
-        <section className="space-y-6">
-          <div className="border-b border-slate-200 pb-4">
-            <h2 className="text-2xl font-semibold text-slate-800">
+        <section className="min-w-0 space-y-6">
+          <div className="min-w-0 border-b border-slate-200 pb-4">
+            <h2 className="break-words text-xl font-semibold text-slate-800 sm:text-2xl">
               Exportar Datos
             </h2>
             <p className="mt-1 text-sm text-slate-600">

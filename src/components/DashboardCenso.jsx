@@ -6,7 +6,9 @@ export function DashboardCenso({ familias, loading }) {
   const totalNinos = familias.reduce((s, f) => s + (f.nroNinos ?? 0), 0)
   const totalAdultos = familias.reduce((s, f) => s + (f.nroAdultos ?? 0), 0)
   const totalAdultosMayores = familias.reduce((s, f) => s + (f.nroAdultosMayores ?? 0), 0)
-  const conDiscapacidad = familias.filter((f) => f.discapacidad).length
+  const conDiscapacidadCondicion = familias.filter(
+    (f) => f.discapacidadCondicion === 'discapacidad' || f.discapacidadCondicion === 'condicion' || f.discapacidad
+  ).length
   const nudosCriticos = familias.filter((f) => f.estadoVivienda === 'Malo').length
 
   if (loading) {
@@ -32,12 +34,12 @@ export function DashboardCenso({ familias, loading }) {
     { icon: Baby, title: 'Niños (0-17)', value: totalNinos, className: 'border-cyan-200 bg-cyan-50/50' },
     { icon: User, title: 'Adultos (18-59)', value: totalAdultos, className: 'border-indigo-200 bg-indigo-50/50' },
     { icon: UsersRound, title: 'Adultos Mayores (60+)', value: totalAdultosMayores, className: 'border-violet-200 bg-violet-50/50' },
-    { icon: Accessibility, title: 'Con Discapacidad', value: conDiscapacidad, className: 'border-amber-200 bg-amber-50/50' },
+    { icon: Accessibility, title: 'Discapacidad / Condición', value: conDiscapacidadCondicion, className: 'border-amber-200 bg-amber-50/50' },
     { icon: AlertTriangle, title: 'Nudos Críticos', value: nudosCriticos, className: 'border-red-200 bg-red-50/50' },
   ]
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {cards.map(({ icon: Icon, title, value, className }) => (
         <div
           key={title}

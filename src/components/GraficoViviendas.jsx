@@ -15,11 +15,11 @@ export function GraficoViviendas({ familias }) {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-sm">
+    <div className="min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm sm:p-6">
       <h3 className="mb-4 text-lg font-semibold text-slate-800">
         Estado de las Viviendas
       </h3>
-      <div className="h-64">
+      <div className="h-56 min-h-0 w-full sm:h-64">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={datos} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />

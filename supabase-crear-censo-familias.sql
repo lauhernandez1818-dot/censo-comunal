@@ -22,6 +22,7 @@ ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS nro_ninos INTEGER DEF
 ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS nro_adultos INTEGER DEFAULT 0;
 ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS nro_adultos_mayores INTEGER DEFAULT 0;
 ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS usuario_creador TEXT;
+ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS discapacidad_condicion TEXT DEFAULT 'ninguna';
 
 ALTER TABLE public.censo_familias ENABLE ROW LEVEL SECURITY;
 

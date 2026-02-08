@@ -11,10 +11,10 @@ export function ExportarCenso({ familias, loading = false }) {
   }
 
   return (
-    <div className="rounded-xl border border-slate-200/80 bg-white p-8 shadow-sm">
+    <div className="min-w-0 max-w-full rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm sm:p-8">
       <p className="mb-6 text-slate-600">
-        Descargue toda la información del censo en formato Excel para respaldos o
-        análisis externos.
+        Descargue <strong>todas</strong> las familias del censo (de todos los usuarios) en formato Excel,
+        ordenadas por quien registró y por jefe de familia.
       </p>
       <button
         onClick={() => exportExcel(familias)}

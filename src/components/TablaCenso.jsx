@@ -25,40 +25,40 @@ export function TablaCenso({ familias, loading, onDelete, onEdit, isAdmin = fals
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm">
-      <div className="overflow-x-auto">
+    <div className="w-full max-w-full overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm">
+      <div className="max-w-full overflow-x-auto [-webkit-overflow-scrolling:touch]">
         <table className="min-w-full divide-y divide-slate-200">
           <thead className="bg-slate-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Jefe de Familia
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Cédula
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Total
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Niños
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Adultos
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 A. Mayores
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
-                Discapacidad
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
+                Disc. / Cond.
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Estado Vivienda
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Nudo Crítico
               </th>
               {isAdmin && (
-                <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-600">
+                <th className="px-2 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                   Acciones
                 </th>
               )}
@@ -72,10 +72,10 @@ export function TablaCenso({ familias, loading, onDelete, onEdit, isAdmin = fals
                   idx % 2 === 1 ? 'bg-slate-50/50' : ''
                 }`}
               >
-                <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-800">
+                <td className="whitespace-nowrap px-3 py-3 text-sm text-slate-800 sm:px-4">
                   {f.jefeFamilia}
                 </td>
-                <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
+                <td className="whitespace-nowrap px-3 py-3 text-xs text-slate-600 sm:px-4 sm:text-sm">
                   {f.cedula}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-sm font-medium text-slate-700">
@@ -91,7 +91,7 @@ export function TablaCenso({ familias, loading, onDelete, onEdit, isAdmin = fals
                   {f.nroAdultosMayores ?? 0}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
-                  {f.discapacidad ? 'Sí' : 'No'}
+                  {f.discapacidadCondicion === 'discapacidad' ? 'Discapacidad' : f.discapacidadCondicion === 'condicion' ? 'Condición' : 'No'}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3">
                   <span
@@ -106,7 +106,7 @@ export function TablaCenso({ familias, loading, onDelete, onEdit, isAdmin = fals
                     {f.estadoVivienda}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-sm text-slate-600">
+                <td className="max-w-[120px] break-words px-4 py-3 text-sm text-slate-600 sm:max-w-[200px]">
                   {f.nudoCritico || '-'}
                 </td>
                 {isAdmin && (

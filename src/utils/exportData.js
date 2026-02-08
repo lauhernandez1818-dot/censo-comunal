@@ -1,37 +1,50 @@
 import * as XLSX from 'xlsx'
 
 export function exportExcel(familias) {
+  const sorted = [...familias].sort((a, b) => {
+    const creadorA = a.usuarioCreador || 'Admin'
+    const creadorB = b.usuarioCreador || 'Admin'
+    if (creadorA !== creadorB) return creadorA.localeCompare(creadorB)
+    return (a.jefeFamilia || '').localeCompare(b.jefeFamilia || '')
+  })
   const headers = [
+    'Registrado por',
     'Jefe de Familia',
     'Cédula',
     'Total',
     'Niños',
     'Adultos',
     'Adultos Mayores',
-    'Discapacidad',
+    'Discapacidad / Condición',
     'Salud / Observación',
     'Estado Vivienda',
     'Nudo Crítico',
-    'Registrado por',
   ]
-  const rows = familias.map((f) => [
+  const rows = sorted.map((f) => [
+    f.usuarioCreador ?? 'Administrador/a',
     f.jefeFamilia ?? '',
     f.cedula ?? '',
     f.nroIntegrantes ?? 0,
     f.nroNinos ?? 0,
     f.nroAdultos ?? 0,
     f.nroAdultosMayores ?? 0,
-    f.discapacidad ? 'Sí' : 'No',
+    f.discapacidadCondicion === 'discapacidad' ? 'Discapacidad' : f.discapacidadCondicion === 'condicion' ? 'Condición especial' : 'Ninguna',
     f.saludObservacion ?? '',
     f.estadoVivienda ?? '',
     f.nudoCritico ?? '',
-    f.usuarioCreador ?? '',
   ])
   const data = [headers, ...rows]
   const ws = XLSX.utils.aoa_to_sheet(data)
   const wb = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(wb, ws, 'Censo')
-  XLSX.writeFile(wb, `censo-barrio-${new Date().toISOString().slice(0, 10)}.xlsx`)
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
+  const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `censo-barrio-${new Date().toISOString().slice(0, 10)}.xlsx`
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 export function exportJSON(familias) {
