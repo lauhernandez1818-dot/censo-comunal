@@ -7,12 +7,15 @@ import { DashboardCenso } from './components/DashboardCenso'
 import { FormCenso } from './components/FormCenso'
 import { TablaCenso } from './components/TablaCenso'
 import { GraficoViviendas } from './components/GraficoViviendas'
+import { GraficoProblemaSalud } from './components/GraficoProblemaSalud'
+import { GraficoDiscapacidadCondicion } from './components/GraficoDiscapacidadCondicion'
+import { GraficoPoblacion } from './components/GraficoPoblacion'
 import { ExportarCenso } from './components/ExportarCenso'
 
 function AppContent() {
   const [vistaActiva, setVistaActiva] = useState('panel')
   const { user, logout, isAdmin } = useAuth()
-  const { familias, loading, addFamilia, updateFamilia, deleteFamilia } = useCensoFamilias()
+  const { familias, loading, addFamilia, updateFamilia, deleteFamilia, useSupabase } = useCensoFamilias()
   const [successMsg, setSuccessMsg] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [editingFamilia, setEditingFamilia] = useState(null)
@@ -50,6 +53,7 @@ function AppContent() {
       user={user}
       onLogout={logout}
       isAdmin={isAdmin}
+      useSupabase={useSupabase}
     >
       {vistaActiva === 'panel' && (
         <section className="min-w-0 space-y-6">
@@ -140,16 +144,21 @@ function AppContent() {
       )}
 
       {isAdmin && vistaActiva === 'grafico' && (
-        <section className="min-w-0 space-y-6">
+        <section className="min-w-0 space-y-8">
           <div className="min-w-0 border-b border-slate-200 pb-4">
             <h2 className="break-words text-xl font-semibold text-slate-800 sm:text-2xl">
-              Gráfico de Viviendas
+              Gráficos
             </h2>
             <p className="mt-1 text-sm text-slate-600">
-              Distribución por estado de vivienda
+              Resumen visual del censo: viviendas, salud, discapacidad y población por edad
             </p>
           </div>
-          <GraficoViviendas familias={familias} />
+          <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
+            <GraficoViviendas familias={familias} />
+            <GraficoProblemaSalud familias={familias} />
+            <GraficoDiscapacidadCondicion familias={familias} />
+            <GraficoPoblacion familias={familias} />
+          </div>
         </section>
       )}
 

@@ -16,6 +16,7 @@ function toApp(row) {
     nroAdultosMayores: row.nro_adultos_mayores ?? row.nroAdultosMayores ?? 0,
     discapacidad: row.discapacidad ?? false,
     discapacidadCondicion: row.discapacidad_condicion ?? row.discapacidadCondicion ?? (row.discapacidad ? 'discapacidad' : 'ninguna'),
+    discapacidadCondicionDetalle: row.discapacidad_condicion_detalle ?? row.discapacidadCondicionDetalle ?? '',
     saludObservacion: row.salud_observacion ?? row.saludObservacion ?? '',
     estadoVivienda: row.estado_vivienda ?? row.estadoVivienda ?? 'Bueno',
     nudoCritico: row.nudo_critico ?? row.nudoCritico ?? '',
@@ -32,6 +33,7 @@ function toDb(f, usuarioCreador = null) {
     nro_adultos_mayores: f.nroAdultosMayores ?? 0,
     discapacidad: f.discapacidad ?? false,
     discapacidad_condicion: f.discapacidadCondicion ?? (f.discapacidad ? 'discapacidad' : 'ninguna'),
+    discapacidad_condicion_detalle: f.discapacidadCondicionDetalle || null,
     salud_observacion: f.saludObservacion || null,
     estado_vivienda: f.estadoVivienda ?? 'Bueno',
     nudo_critico: f.nudoCritico || null,
@@ -166,5 +168,5 @@ export function useCensoFamilias() {
     saveLocal(lista)
   }, [useSupabase, familias])
 
-  return { familias, loading, addFamilia, updateFamilia, deleteFamilia, fetchFamilias }
+  return { familias, loading, addFamilia, updateFamilia, deleteFamilia, fetchFamilias, useSupabase }
 }

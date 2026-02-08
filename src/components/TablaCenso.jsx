@@ -52,6 +52,15 @@ export function TablaCenso({ familias, loading, onDelete, onEdit, isAdmin = fals
                 Disc. / Cond.
               </th>
               <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
+                Especificación
+              </th>
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
+                Problema salud
+              </th>
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
+                Qué padece
+              </th>
+              <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
                 Estado Vivienda
               </th>
               <th className="px-2 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 sm:px-4">
@@ -92,6 +101,15 @@ export function TablaCenso({ familias, loading, onDelete, onEdit, isAdmin = fals
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
                   {f.discapacidadCondicion === 'discapacidad' ? 'Discapacidad' : f.discapacidadCondicion === 'condicion' ? 'Condición' : 'No'}
+                </td>
+                <td className="max-w-[140px] break-words px-4 py-3 text-sm text-slate-600 sm:max-w-[200px]">
+                  {f.discapacidadCondicionDetalle || '-'}
+                </td>
+                <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
+                  {f.saludObservacion && f.saludObservacion.trim() ? 'Sí' : 'No'}
+                </td>
+                <td className="max-w-[120px] break-words px-4 py-3 text-sm text-slate-600 sm:max-w-[180px]">
+                  {f.saludObservacion && f.saludObservacion.trim() ? f.saludObservacion : '-'}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3">
                   <span

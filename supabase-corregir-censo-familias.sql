@@ -23,3 +23,4 @@
 ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS usuario_creador TEXT;
 ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT NOW();
 ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS discapacidad_condicion TEXT DEFAULT 'ninguna';
+ALTER TABLE public.censo_familias ADD COLUMN IF NOT EXISTS discapacidad_condicion_detalle TEXT;

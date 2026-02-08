@@ -7,6 +7,7 @@ import {
   Download,
   LogOut,
   User,
+  AlertTriangle,
 } from 'lucide-react'
 
 const NAV_ADMIN = [
@@ -23,7 +24,7 @@ const NAV_USUARIO = [
   { id: 'base', label: 'Mi Familia', icon: Home },
 ]
 
-export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, children }) {
+export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, useSupabase = true, children }) {
   const navItems = isAdmin ? NAV_ADMIN : NAV_USUARIO
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50">
@@ -67,6 +68,19 @@ export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, c
           </div>
         </div>
       </header>
+      {!useSupabase && (
+        <div className="mx-auto max-w-6xl px-3 sm:px-4">
+          <div className="flex items-center gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-amber-900">
+            <AlertTriangle className="h-6 w-6 shrink-0 text-amber-600" />
+            <div>
+              <p className="font-medium">Usando almacenamiento local</p>
+              <p className="text-sm">
+                Los datos solo se guardan en este dispositivo. Para que todos vean las mismas familias, configure Supabase en Vercel (variables VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY) y ejecute el SQL en su proyecto Supabase.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       <main className="mx-auto w-full max-w-6xl overflow-x-hidden px-3 py-6 sm:px-4 sm:py-8">{children}</main>
     </div>
   )

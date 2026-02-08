@@ -60,9 +60,14 @@ export function Login({ onLogin, onRegister }) {
             )}
           </div>
         </div>
-        <h1 className="mb-1 text-center text-xl font-semibold text-slate-800">
-          Censo Comunal
-        </h1>
+        <div className="mb-6 text-center">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-800 sm:text-2xl">
+            Consejo Comunal
+          </h1>
+          <p className="mt-1 text-sm font-medium uppercase tracking-wider text-blue-900/90">
+            Aqui Esta Oeste
+          </p>
+        </div>
         <p className="mb-6 text-center text-sm text-slate-600">
           {esRegistro ? 'Crea tu cuenta para continuar' : 'Inicie sesión para continuar'}
         </p>

@@ -15,6 +15,8 @@ const INITIAL = {
   nroAdultos: 0,
   nroAdultosMayores: 0,
   discapacidadCondicion: 'ninguna',
+  discapacidadCondicionDetalle: '',
+  hayProblemaSalud: 'no',
   saludObservacion: '',
   estadoVivienda: 'Bueno',
   nudoCritico: '',
@@ -31,6 +33,8 @@ export function FormCenso({ onSubmit, initialData, onCancel }) {
           nroAdultos: initialData.nroAdultos ?? 0,
           nroAdultosMayores: initialData.nroAdultosMayores ?? 0,
           discapacidadCondicion: initialData.discapacidadCondicion ?? (initialData.discapacidad ? 'discapacidad' : 'ninguna'),
+          discapacidadCondicionDetalle: initialData.discapacidadCondicionDetalle ?? '',
+          hayProblemaSalud: (initialData.saludObservacion && String(initialData.saludObservacion).trim()) ? 'si' : 'no',
           saludObservacion: initialData.saludObservacion ?? '',
           estadoVivienda: initialData.estadoVivienda ?? 'Bueno',
           nudoCritico: initialData.nudoCritico ?? '',
@@ -197,19 +201,53 @@ export function FormCenso({ onSubmit, initialData, onCancel }) {
             ))}
           </select>
         </div>
-        <div className="sm:col-span-2 lg:col-span-3">
+        {(form.discapacidadCondicion === 'discapacidad' || form.discapacidadCondicion === 'condicion') && (
+          <div className="sm:col-span-2 lg:col-span-3 rounded-lg border border-amber-200 bg-amber-50/50 p-4">
+            <label className="mb-1 block text-sm font-medium text-slate-700">
+              Especifique qué {form.discapacidadCondicion === 'discapacidad' ? 'discapacidad' : 'condición'} presenta
+            </label>
+            <textarea
+              name="discapacidadCondicionDetalle"
+              value={form.discapacidadCondicionDetalle}
+              onChange={handleChange}
+              rows={2}
+              className={inputClass('discapacidadCondicionDetalle')}
+              placeholder="Ej: Movilidad reducida, diabetes, hipertensión, visión..."
+            />
+          </div>
+        )}
+        <div>
           <label className="mb-1 block text-sm font-medium text-slate-700">
-            Salud / Observación
+            ¿Algún integrante con problema de salud?
           </label>
-          <textarea
-            name="saludObservacion"
-            value={form.saludObservacion}
-            onChange={handleChange}
-            rows={2}
-            className={inputClass('saludObservacion')}
-            placeholder="Ej: Alergias, medicación, condiciones especiales (opcional)"
-          />
+          <select
+            name="hayProblemaSalud"
+            value={form.hayProblemaSalud}
+            onChange={(e) => {
+              handleChange(e)
+              if (e.target.value === 'no') setForm((prev) => ({ ...prev, saludObservacion: '' }))
+            }}
+            className={inputClass('hayProblemaSalud')}
+          >
+            <option value="no">No</option>
+            <option value="si">Sí</option>
+          </select>
         </div>
+        {form.hayProblemaSalud === 'si' && (
+          <div className="sm:col-span-2 lg:col-span-3 rounded-lg border border-sky-200 bg-sky-50/50 p-4">
+            <label className="mb-1 block text-sm font-medium text-slate-700">
+              Especifique qué padece(n)
+            </label>
+            <textarea
+              name="saludObservacion"
+              value={form.saludObservacion}
+              onChange={handleChange}
+              rows={2}
+              className={inputClass('saludObservacion')}
+              placeholder="Ej: Diabetes, hipertensión, asma, alergias..."
+            />
+          </div>
+        )}
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-700">
             Estado de Vivienda
