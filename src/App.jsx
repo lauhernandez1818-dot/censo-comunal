@@ -36,13 +36,18 @@ function AppContent() {
       setErrorMsg('Solo puede registrar una familia. Véala en Mi Familia.')
       return
     }
-    const id = await addFamilia(familia, isAdmin ? null : user?.usuario)
-    if (id) {
-      setSuccessMsg('Familia registrada correctamente.')
-      setTimeout(() => setSuccessMsg(''), 3000)
+    const result = await addFamilia(familia, isAdmin ? null : user?.usuario)
+    if (result?.id) {
+      if (result.savedToSupabase) {
+        setSuccessMsg('Familia registrada correctamente en la nube.')
+      } else {
+        setSuccessMsg('Familia guardada solo en este dispositivo.')
+        setErrorMsg(result.error ? `Supabase: ${result.error}` : 'No se pudo conectar con Supabase. Revise .env (VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY) y que la tabla censo_familias exista.')
+      }
+      setTimeout(() => { setSuccessMsg(''); setErrorMsg('') }, 5000)
       setVistaActiva('base')
     } else {
-      setErrorMsg('No se pudo guardar. Revise la consola del navegador.')
+      setErrorMsg('No se pudo guardar.')
     }
   }
 

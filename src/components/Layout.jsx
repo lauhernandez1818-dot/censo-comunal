@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
   LayoutDashboard,
   UserPlus,
@@ -8,7 +9,10 @@ import {
   LogOut,
   User,
   AlertTriangle,
+  X,
 } from 'lucide-react'
+
+const AVISO_LOCAL_KEY = 'censo-aviso-local-oculto'
 
 const NAV_ADMIN = [
   { id: 'panel', label: 'Panel', icon: LayoutDashboard },
@@ -25,7 +29,25 @@ const NAV_USUARIO = [
 ]
 
 export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, useSupabase = true, children }) {
+  const [avisoLocalOculto, setAvisoLocalOculto] = useState(() => {
+    try {
+      return sessionStorage.getItem(AVISO_LOCAL_KEY) === '1'
+    } catch {
+      return false
+    }
+  })
+
+  useEffect(() => {
+    if (avisoLocalOculto) {
+      try {
+        sessionStorage.setItem(AVISO_LOCAL_KEY, '1')
+      } catch {}
+    }
+  }, [avisoLocalOculto])
+
   const navItems = isAdmin ? NAV_ADMIN : NAV_USUARIO
+  const mostrarAvisoLocal = !useSupabase && !avisoLocalOculto
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-slate-50">
       <header className="border-b border-slate-200/80 bg-blue-900 text-white shadow-md">
@@ -68,9 +90,9 @@ export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, u
           </div>
         </div>
       </header>
-      {!useSupabase && (
+      {mostrarAvisoLocal && (
         <div className="mx-auto max-w-6xl px-3 sm:px-4">
-          <div className="flex items-center gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-amber-900">
+          <div className="relative flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 pr-10 text-amber-900">
             <AlertTriangle className="h-6 w-6 shrink-0 text-amber-600" />
             <div>
               <p className="font-medium">Usando almacenamiento local</p>
@@ -78,6 +100,14 @@ export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, u
                 Los datos solo se guardan en este dispositivo. Para que todos vean las mismas familias, configure Supabase en Vercel (variables VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY) y ejecute el SQL en su proyecto Supabase.
               </p>
             </div>
+            <button
+              type="button"
+              onClick={() => setAvisoLocalOculto(true)}
+              className="absolute right-2 top-2 rounded p-1.5 text-amber-700 hover:bg-amber-100"
+              title="Cerrar aviso (se volverá a mostrar al abrir de nuevo)"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
         </div>
       )}

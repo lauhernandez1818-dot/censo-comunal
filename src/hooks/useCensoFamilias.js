@@ -71,8 +71,7 @@ export function useCensoFamilias() {
       .select('*')
       .order('created_at', { ascending: false })
     if (error) {
-      console.warn('Supabase no disponible, usando localStorage:', error.message)
-      setUseSupabase(false)
+      console.warn('Supabase error (usando datos locales por ahora):', error.message)
       const local = loadLocal()
       return local.map((r) => toApp({ ...r, jefe_familia: r.jefeFamilia, nro_integrantes: r.nroIntegrantes }))
     }
@@ -112,16 +111,19 @@ export function useCensoFamilias() {
         .single()
       if (!error && data) {
         setFamilias((prev) => [toApp({ ...familia, id: data.id, usuario_creador: usuarioCreador }), ...prev])
-        return data.id
+        return { id: data.id, savedToSupabase: true }
       }
-      console.warn('Error Supabase, guardando en localStorage:', error?.message)
-      setUseSupabase(false)
+      console.warn('Error Supabase:', error?.message, error)
+      const lista = [nueva, ...familias]
+      setFamilias(lista)
+      saveLocal(lista)
+      return { id, savedToSupabase: false, error: error?.message || 'Error desconocido' }
     }
 
     const lista = [nueva, ...familias]
     setFamilias(lista)
     saveLocal(lista)
-    return id
+    return { id, savedToSupabase: false }
   }, [useSupabase, familias])
 
   const updateFamilia = useCallback(async (id, familia) => {
