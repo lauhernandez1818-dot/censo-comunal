@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { LogIn, UserPlus } from 'lucide-react'
+import { LogIn, UserPlus, Eye, EyeOff } from 'lucide-react'
 
 const inputClass =
   'w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-800 transition-colors focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30'
@@ -11,6 +11,8 @@ export function Login({ onLogin, onRegister }) {
   const [clave, setClave] = useState('')
   const [claveConfirmar, setClaveConfirmar] = useState('')
   const [error, setError] = useState('')
+  const [verClave, setVerClave] = useState(false)
+  const [verClaveConfirmar, setVerClaveConfirmar] = useState(false)
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -40,6 +42,8 @@ export function Login({ onLogin, onRegister }) {
     setUsuario('')
     setClave('')
     setClaveConfirmar('')
+    setVerClave(false)
+    setVerClaveConfirmar(false)
   }
 
   const esRegistro = modo === 'register'
@@ -84,31 +88,51 @@ export function Login({ onLogin, onRegister }) {
             <label htmlFor="clave" className={labelClass}>
               Contraseña
             </label>
-            <input
-              id="clave"
-              type="password"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
-              className={inputClass}
-              placeholder={esRegistro ? 'Mín. 4 caracteres' : 'Ingrese su contraseña'}
-              required
-              minLength={esRegistro ? 4 : undefined}
-            />
+            <div className="relative">
+              <input
+                id="clave"
+                type={verClave ? 'text' : 'password'}
+                value={clave}
+                onChange={(e) => setClave(e.target.value)}
+                className={`${inputClass} pr-10`}
+                placeholder={esRegistro ? 'Mín. 4 caracteres' : 'Ingrese su contraseña'}
+                required
+                minLength={esRegistro ? 4 : undefined}
+              />
+              <button
+                type="button"
+                onClick={() => setVerClave((v) => !v)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                title={verClave ? 'Ocultar contraseña' : 'Ver contraseña'}
+              >
+                {verClave ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
           {esRegistro && (
             <div>
               <label htmlFor="claveConfirmar" className={labelClass}>
                 Confirmar contraseña
               </label>
-              <input
-                id="claveConfirmar"
-                type="password"
-                value={claveConfirmar}
-                onChange={(e) => setClaveConfirmar(e.target.value)}
-                className={inputClass}
-                placeholder="Repita su contraseña"
-                required
-              />
+              <div className="relative">
+                <input
+                  id="claveConfirmar"
+                  type={verClaveConfirmar ? 'text' : 'password'}
+                  value={claveConfirmar}
+                  onChange={(e) => setClaveConfirmar(e.target.value)}
+                  className={`${inputClass} pr-10`}
+                  placeholder="Repita su contraseña"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setVerClaveConfirmar((v) => !v)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                  title={verClaveConfirmar ? 'Ocultar contraseña' : 'Ver contraseña'}
+                >
+                  {verClaveConfirmar ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
           )}
           {error && <p className="text-sm text-red-600">{error}</p>}
