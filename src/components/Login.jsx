@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { LogIn, UserPlus, Eye, EyeOff, Smartphone, Shield, Users, Mail } from 'lucide-react'
+import { Eye, EyeOff, Smartphone, Shield, Users, Mail } from 'lucide-react'
 import { supabase, isSupabaseConfigured } from '../lib/supabase'
 
 const inputClass =
@@ -161,12 +161,12 @@ export function Login({ onLogin, onRegister, onSendOTP, onVerifyOTP }) {
     <div className="flex min-h-screen min-w-0 items-center justify-center overflow-x-hidden bg-gradient-to-br from-slate-100 via-blue-50/30 to-slate-200 px-3 py-6 transition-colors sm:px-4">
       <div className="w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-xl shadow-slate-300/30 backdrop-blur-sm sm:p-8">
         <div className="mb-6 flex justify-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-900 text-white shadow-lg shadow-blue-900/30 transition-shadow">
-            {esRegistro ? (
-              <UserPlus className="h-7 w-7" strokeWidth={2} />
-            ) : (
-              <LogIn className="h-7 w-7" strokeWidth={2} />
-            )}
+          <div className="flex h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-blue-900/30 shadow-lg shadow-blue-900/30">
+            <img
+              src="/logo.jpeg"
+              alt="Consejo Comunal Aquí Está Oeste"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
         <div className="mb-6 text-center">
