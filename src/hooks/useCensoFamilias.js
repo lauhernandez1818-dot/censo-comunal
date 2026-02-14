@@ -8,6 +8,7 @@ function toApp(row) {
   return {
     id: row.id,
     usuarioCreador: row.usuario_creador ?? row.usuarioCreador ?? null,
+    jefaCalleId: row.jefa_calle_id ?? row.jefaCalleId ?? null,
     jefeFamilia: row.jefe_familia ?? row.jefeFamilia,
     cedula: row.cedula,
     nroIntegrantes: row.nro_integrantes ?? row.nroIntegrantes ?? 0,
@@ -23,7 +24,7 @@ function toApp(row) {
   }
 }
 
-function toDb(f, usuarioCreador = null) {
+function toDb(f, usuarioCreador = null, jefaCalleId = null) {
   const out = {
     jefe_familia: f.jefeFamilia,
     cedula: f.cedula,
@@ -39,6 +40,7 @@ function toDb(f, usuarioCreador = null) {
     nudo_critico: f.nudoCritico || null,
   }
   if (usuarioCreador != null) out.usuario_creador = usuarioCreador
+  if (jefaCalleId != null) out.jefa_calle_id = jefaCalleId
   return out
 }
 
@@ -98,10 +100,10 @@ export function useCensoFamilias() {
     return () => supabase.removeChannel(channel)
   }, [useSupabase, fetchFamilias])
 
-  const addFamilia = useCallback(async (familia, usuarioCreador = null) => {
-    const payload = toDb(familia, usuarioCreador)
+  const addFamilia = useCallback(async (familia, usuarioCreador = null, jefaCalleId = null) => {
+    const payload = toDb(familia, usuarioCreador, jefaCalleId)
     const id = crypto.randomUUID?.() ?? `id-${Date.now()}-${Math.random().toString(36).slice(2)}`
-    const nueva = { ...familia, id, usuarioCreador }
+    const nueva = { ...familia, id, usuarioCreador, jefaCalleId }
 
     if (useSupabase && supabase) {
       const { data, error } = await supabase
@@ -110,7 +112,7 @@ export function useCensoFamilias() {
         .select('id')
         .single()
       if (!error && data) {
-        setFamilias((prev) => [toApp({ ...familia, id: data.id, usuario_creador: usuarioCreador }), ...prev])
+        setFamilias((prev) => [toApp({ ...familia, id: data.id, usuario_creador: usuarioCreador, jefa_calle_id: jefaCalleId }), ...prev])
         return { id: data.id, savedToSupabase: true }
       }
       console.warn('Error Supabase:', error?.message, error)

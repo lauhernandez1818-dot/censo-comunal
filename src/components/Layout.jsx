@@ -28,7 +28,7 @@ const NAV_USUARIO = [
   { id: 'base', label: 'Mi Familia', icon: Home },
 ]
 
-export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, useSupabase = true, children }) {
+export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, isJefaCalle, useSupabase = true, children }) {
   const [avisoLocalOculto, setAvisoLocalOculto] = useState(() => {
     try {
       return sessionStorage.getItem(AVISO_LOCAL_KEY) === '1'
@@ -45,7 +45,7 @@ export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, u
     }
   }, [avisoLocalOculto])
 
-  const navItems = isAdmin ? NAV_ADMIN : NAV_USUARIO
+  const navItems = (isAdmin || isJefaCalle) ? NAV_ADMIN : NAV_USUARIO
   const mostrarAvisoLocal = !useSupabase && !avisoLocalOculto
 
   return (
@@ -76,7 +76,7 @@ export function Layout({ vistaActiva, onCambiarVista, user, onLogout, isAdmin, u
               <User className="h-4 w-4 text-blue-200" strokeWidth={2} />
               <span className="text-sm font-medium text-blue-50">{user?.usuario}</span>
               <span className="rounded-md bg-white/20 px-2 py-1 text-xs font-medium">
-                {user?.rol === 'admin' ? 'Administradora' : 'Usuario'}
+                {user?.rol === 'admin' ? 'Administradora' : user?.rol === 'jefa_calle' ? 'Jefa de Calle' : 'Usuario'}
               </span>
               <button
                 onClick={onLogout}
